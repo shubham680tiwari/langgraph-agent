@@ -1,6 +1,7 @@
 from typing import TypedDict
 
-from langgraph.graph import StateGraph, START, END
+from langgraph.graph import END, START, StateGraph
+
 
 class NoteState(TypedDict):
     raw_text: str
@@ -10,14 +11,13 @@ class NoteState(TypedDict):
 
 # Node 1
 def clean_note(state: NoteState) -> dict:
-    # '    hello  there.   '
     cleaned = ' '.join(state['raw_text'].split())
     return {'clean_text': cleaned}
 
 # Node 2
 def check_priority(state: NoteState) -> dict:
     high_priority_words = ('urgent', 'asap', 'today')
-    text = state['clean_text'].lower() # hello there
+    text = state['clean_text'].lower()
     priority = 'high' if any(word in text for word in high_priority_words) else 'normal'
     return {'priority': priority}
 
@@ -37,3 +37,13 @@ graph.add_node("note_summary", note_summary)
 
 # Edges
 graph.add_edge(START, "clean_note")
+graph.add_edge("clean_note", "check_priority")
+graph.add_edge("check_priority", "note_summary")
+graph.add_edge("note_summary", END)
+
+agent = graph.compile()
+
+query = input('Enter your query')
+result = agent.invoke({'raw_text': f'{query}'})
+print(result['summary'])
+print(result)
