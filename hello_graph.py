@@ -27,4 +27,4 @@ app = graph.compile()
 result = app.invoke({'name': 'Alex'})
 
 print(result)
-print(app.get_graph().draw_mermaid())
+# print(app.get_graph().draw_mermaid())
