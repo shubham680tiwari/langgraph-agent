@@ -10,7 +10,7 @@ class GreeteState(TypedDict):
 
 # 2. Node
 # receives the current state and returns only the key-value it changes
-def greet(state: GreeteState):
+def greet(state: GreeteState) -> dict:
     name = state['name']
     return {'greeting': f'Hello {name}'}
 
