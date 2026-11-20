@@ -1,5 +1,6 @@
 from typing import TypedDict
 
+# from IPython.display import Image, display
 from langgraph.graph import END, START, StateGraph
 
 
@@ -43,7 +44,30 @@ graph.add_edge("note_summary", END)
 
 agent = graph.compile()
 
-query = input('Enter your query')
-result = agent.invoke({'raw_text': f'{query}'})
+query = {'raw_text': 'Hello, complete this today'}
+result = agent.invoke(query)
+
 print(result['summary'])
-print(result)
+
+# print(result)
+# print(agent.get_graph().draw_mermaid())
+# display(Image(agent.get_graph().draw_mermaid_png()))
+
+
+# streaming by update
+# for step in agent.stream(query, stream_mode='updates'):
+#     print(step)
+# print('------------------')
+# # streaming by value
+# for step in agent.stream(query, stream_mode='values'):
+#     print(step)
+
+# Method chaining works too
+# agent = (StateGraph(NoteState)
+#          .add_node("clean_note", clean_note)
+#          .add_node("clean_note", clean_note)
+#          .add_node("clean_note", clean_note)
+#          .add_edge("clean_note", "check_priority")
+#          .add_edge("clean_note", "check_priority")
+#          .add_edge("clean_note", "check_priority")
+#          .compile())
