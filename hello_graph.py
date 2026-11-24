@@ -1,6 +1,9 @@
 from typing import TypedDict
 
 from langgraph.graph import END, START, StateGraph
+# from llm import get_llm, text_of
+
+# print(text_of(get_llm().invoke('Say hello in one word')))
 
 
 # 1. State
