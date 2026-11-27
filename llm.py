@@ -13,6 +13,8 @@ def get_llm(temperature: float = 0):
     return ChatGoogleGenerativeAI(
         model=os.getenv('GEMINI_MODEL', 'gemini-3.5-flash'),
         temperature = temperature,
+        timeout=30.0,
+        max_retries=2
     )
 
 def text_of(message) -> str:
